@@ -1,18 +1,40 @@
 {
   "name": "vibe-log",
   "version": "1.0.0",
+  "description": "The Universal Reasoning Ledger for Agentic Development",
   "main": "dist/cli/index.js",
   "bin": {
     "vibe-log": "./dist/cli/index.js"
   },
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["ai", "vibe-coding", "ledger"],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edenkollcinaku/vibe-log.git"
+  },
+  "keywords": [
+    "ai",
+    "vibe-coding",
+    "agentic-workflow",
+    "gemini",
+    "ledger",
+    "documentation"
+  ],
+  "author": "Eden Kollçinaku",
   "license": "MIT",
-  "description": "The Universal Reasoning Ledger for Agentic Development",
+  "bugs": {
+    "url": "https://github.com/edenkollcinaku/vibe-log/issues"
+  },
+  "homepage": "https://github.com/edenkollcinaku/vibe-log#readme",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "VIBE.md"
+  ],
   "dependencies": {
     "@google/genai": "^1.49.0",
     "commander": "^14.0.3",
@@ -22,5 +44,8 @@
     "@types/node": "^25.6.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
