@@ -1,4 +1,5 @@
 # 🌊 Vibe-Log
+[![npm version](https://img.shields.io/npm/v/@edenkollcinaku/vibe-log.svg)](https://www.npmjs.com/package/@edenkollcinaku/vibe-log)
 
 **The Universal Reasoning Ledger for Agentic Development.**
 
@@ -17,21 +18,18 @@ You can then cleanly hand off the repository to a fresh AI agent, fully loaded w
 ## 🚀 Getting Started
 
 ### 1. Installation
-You can run `vibe-log` directly using `npx`:
+The easiest way to use Vibe-Log is via `npx` (no installation required), or you can install it globally:
 
 ```bash
-git clone [https://github.com/edenkollcinaku/vibe-log.git](https://github.com/edenkollcinaku/vibe-log.git)
-cd vibe-log
-npm install
-npm run build
-npm link
+# Install globally so you can use the 'vibe-log' command anywhere
+npm install -g @edenkollcinaku/vibe-log
 ```
 
 ### 2. Configuration
 Before using the tool, set up your Gemini API Key. Since we prefer the "Open Source" way, keys are saved gracefully and securely in your global home directory (`~/.vibe-log/config`):
 
 ```bash
-vibe-log configure --key "YOUR_GOOGLE_AI_API_KEY"
+npx @edenkollcinaku/vibe-log configure --key "YOUR_GOOGLE_AI_API_KEY"
 ```
 *(You can also set the model preference globally with --model gemini-3.1-pro-preview.)*
 
