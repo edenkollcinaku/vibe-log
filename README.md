@@ -39,14 +39,14 @@ vibe-log configure --key "YOUR_GOOGLE_AI_API_KEY"
 Initialize `vibe-log` in your project to create the `VIBE.md` long-term memory ledger and install a git pre-commit hook.
 
 ```bash
-npx vibe-log init
+npx @edenkollcinaku/vibe-log init
 ```
 
 ### 4. Handoff & Commit
 When you're ready to stop working and hand off the context, just commit as usual. The Git pre-commit hook automatically triggers the Distiller to condense your work into a 2k-token Context Capsule. Or manually invoke it:
 
 ```bash
-vibe-log handoff --model gemini-3.1-pro-preview
+npx @edenkollcinaku/vibe-log handoff --model gemini-3.1-pro-preview
 ```
 
 ## 🧩 Architecture
