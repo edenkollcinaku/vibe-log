@@ -1,0 +1,53 @@
+# --- Dependencies ---
+node_modules/
+jspm_packages/
+
+# --- TypeScript/Build Output ---
+dist/
+lib/
+out/
+build/
+tsstyle/
+*.tsbuildinfo
+
+# --- Environment & Secrets ---
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+# Ignore the actual config if you ever test with a local file
+.vibe-log-config
+
+# --- Debug & Logs ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+logs
+*.log
+
+# --- OS Specific ---
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+desktop.ini
+
+# --- IDE/Editor Private Folders ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.settings/
+
+# --- Testing/Coverage ---
+coverage/
+.nyc_output/
+
+# --- Misc ---
+.npm/
+.eslintcache
