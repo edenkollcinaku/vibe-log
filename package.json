@@ -1,5 +1,5 @@
 {
-  "name": "vibe-log",
+  "name": "edenkollcinaku/vibe-log",
   "version": "1.0.0",
   "description": "The Universal Reasoning Ledger for Agentic Development",
   "main": "dist/cli/index.js",
