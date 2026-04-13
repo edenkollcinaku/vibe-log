@@ -11,10 +11,12 @@ const CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 
 export interface VibeConfig {
   geminiApiKey: string | null;
+  model: string;
 }
 
 export function getConfig(): VibeConfig {
   let geminiApiKey: string | null = process.env.GEMINI_API_KEY || null;
+  let model: string = 'gemini-3-flash-preview';
 
   if (fs.existsSync(CONFIG_FILE)) {
     try {
@@ -23,6 +25,9 @@ export function getConfig(): VibeConfig {
       if (!geminiApiKey && parsed.geminiApiKey) {
         geminiApiKey = parsed.geminiApiKey;
       }
+      if (parsed.model) {
+        model = parsed.model;
+      }
     } catch (e) {
       // Failed to parse config, ignore
     }
@@ -30,6 +35,7 @@ export function getConfig(): VibeConfig {
 
   return {
     geminiApiKey,
+    model,
   };
 }
 

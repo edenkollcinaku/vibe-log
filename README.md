@@ -2,11 +2,7 @@
 
 **The Universal Reasoning Ledger for Agentic Development.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-
 Vibe-Log is a professional-grade CLI tool that autonomously captures architectural "intent" and "reasoning" from your AI-assisted coding sessions. **Say goodbye to "Vibe Amnesia."**
-
-![Reasoning Loop Diagram](https://raw.githubusercontent.com/vibe-log/repo/main/docs/reasoning-loop.png)
 
 ## 🤯 The Problem: Vibe Amnesia
 When pair-programming with AI (like Cursor, Claude Code, or Antigravity), we iterate quickly. Decisions are made, trade-offs are accepted, and specific coding styles are adopted in the heat of the "vibe." 
@@ -24,16 +20,20 @@ You can then cleanly hand off the repository to a fresh AI agent, fully loaded w
 You can run `vibe-log` directly using `npx`:
 
 ```bash
-npx vibe-log
+git clone [https://github.com/edenkollcinaku/vibe-log.git](https://github.com/edenkollcinaku/vibe-log.git)
+cd vibe-log
+npm install
+npm run build
+npm link
 ```
 
 ### 2. Configuration
 Before using the tool, set up your Gemini API Key. Since we prefer the "Open Source" way, keys are saved gracefully and securely in your global home directory (`~/.vibe-log/config`):
 
 ```bash
-npx vibe-log configure --key "AIzaSyYourGeminiApiKeyHere"
+vibe-log configure --key "YOUR_GOOGLE_AI_API_KEY"
 ```
-*(You can also securely set `GEMINI_API_KEY` in your CI/CD process.)*
+*(You can also set the model preference globally with --model gemini-3.1-pro-preview.)*
 
 ### 3. Initialize the Project
 Initialize `vibe-log` in your project to create the `VIBE.md` long-term memory ledger and install a git pre-commit hook.
@@ -46,7 +46,7 @@ npx vibe-log init
 When you're ready to stop working and hand off the context, just commit as usual. The Git pre-commit hook automatically triggers the Distiller to condense your work into a 2k-token Context Capsule. Or manually invoke it:
 
 ```bash
-npx vibe-log handoff
+vibe-log handoff --model gemini-3.1-pro-preview
 ```
 
 ## 🧩 Architecture

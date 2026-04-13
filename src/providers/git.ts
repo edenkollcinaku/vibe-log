@@ -18,11 +18,27 @@ export class GitProvider implements LogProvider {
 
   async getRecentLogs(): Promise<string | null> {
     try {
-      // Get the diff of currently staged/unstaged files
-      const { stdout: diff } = await execAsync('git diff HEAD');
-      
-      // Get the last 3 commits to understand recent context
-      const { stdout: commits } = await execAsync('git log -n 3 --pretty=format:"%h - %s"');
+      let diff = '';
+      let commits = '';
+
+      try {
+        // Check if HEAD exists (fails on first commit)
+        await execAsync('git rev-parse HEAD');
+        
+        // Get the diff of currently staged/unstaged files against HEAD
+        const diffResult = await execAsync('git diff HEAD');
+        diff = diffResult.stdout;
+        
+        // Get the last 3 commits to understand recent context
+        const commitsResult = await execAsync('git log -n 3 --pretty=format:"%h - %s"');
+        commits = commitsResult.stdout;
+      } catch (headError) {
+        // Fallback for initial commit
+        const emptyTreeHash = '4b825dc642cb6eb9a060e54bf8d69288fbee4904';
+        const diffResult = await execAsync(`git diff ${emptyTreeHash}`);
+        diff = diffResult.stdout;
+        commits = 'No previous commits (Initial Commit).';
+      }
 
       // If nothing has changed recently, we might not have much
       if (!diff.trim() && !commits.trim()) {

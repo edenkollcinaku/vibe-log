@@ -1,0 +1,3 @@
+# Vibe-Log Protocol
+- Use the `vibe-log` CLI to capture reasoning after major refactors.
+- Respect the `confidenceScore` in `VIBE.md`; if a previous session had "Low" confidence, verify that logic before extending it.

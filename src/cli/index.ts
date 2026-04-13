@@ -17,9 +17,14 @@ program
 program
   .command('configure')
   .description('Set up the global configuration for vibe-log')
-  .requiredOption('-k, --key <key>', 'Gemini API Key')
+  .option('-k, --key <key>', 'Gemini API Key')
+  .option('-m, --model <model>', 'Default Gemini model to use')
   .action((options) => {
-    saveConfig({ geminiApiKey: options.key });
+    const configUpdate: any = {};
+    if (options.key) configUpdate.geminiApiKey = options.key;
+    if (options.model) configUpdate.model = options.model;
+    
+    saveConfig(configUpdate);
     console.log('✅ Configuration saved successfully to ~/.vibe-log/config');
   });
 
@@ -53,10 +58,11 @@ program
   .command('handoff')
   .description('Generates a condensed Context Capsule from recent logs and updates the Ledger')
   .option('--silent', 'Run silently without printing output to stdout')
+  .option('-m, --model <model>', 'Override the default model for this session')
   .action(async (options) => {
     try {
-      if (!options.silent) console.log('🔍 Analyzing recent session logs...');
-      const capsule = await distillLogs();
+      if (!options.silent) console.log(`🔍 Analyzing recent session logs${options.model ? ` using ${options.model}` : ''}...`);
+      const capsule = await distillLogs(options.model);
       if (capsule) {
         if (!options.silent) {
           console.log('\n================ Context Capsule ================');

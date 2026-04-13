@@ -52,13 +52,14 @@ const CONTEXT_CAPSULE_SCHEMA: Schema = {
   required: ["timestamp", "projectContext", "architecturalIntent", "confidenceScore"]
 };
 
-export async function distillLogs(): Promise<any | null> {
+export async function distillLogs(modelOverride?: string): Promise<any | null> {
   const config = getConfig();
   if (!config.geminiApiKey) {
     throw new Error('Gemini API key is not configured. Run "vibe-log configure" to set it up.');
   }
 
-  const ai = new GoogleGenAI({ apiKey: config.geminiApiKey });
+  const modelName = modelOverride || config.model;
+  const ai = new GoogleGenAI({ apiKey: config.geminiApiKey, apiVersion: 'v1beta' });
   const providers: LogProvider[] = [new AntigravityProvider(), new GitProvider()];
   
   let aggregatedLogs = '';
@@ -86,7 +87,7 @@ ${aggregatedLogs}
 `;
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3.0-pro', // Using modern gemini pro model alias
+    model: modelName,
     contents: prompt,
     config: {
       responseMimeType: 'application/json',
