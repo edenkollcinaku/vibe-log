@@ -1,4 +1,4 @@
 # Vibe-Log Integration Rules
-- After completing any significant architectural change or feature, always run `npx . handoff`.
+- After completing any significant architectural change or feature, always run `npx @edenkollcinaku/vibe-log handoff`.
 - When starting a new session, read `VIBE.md` to understand the current "vibe" and architectural intent.
 - Maintain the "Reasoning Timeline" format in `VIBE.md`.

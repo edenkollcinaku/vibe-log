@@ -1,3 +1,8 @@
 # Vibe-Log Protocol
-- Use the `vibe-log` CLI to capture reasoning after major refactors.
-- Respect the `confidenceScore` in `VIBE.md`; if a previous session had "Low" confidence, verify that logic before extending it.
+- Handoff after Refactoring: After every major architectural change, feature completion, or significant refactor, you MUST execute: npx @edenkollcinaku/vibe-log handoff.
+
+- Long-term Memory: Before starting any new task, read the latest entries in VIBE.md to understand previous decisions and the current "vibe" of the project.
+
+- Confidence Assessment: Respect the confidenceScore field in the ledger; if a previous session has "Low" confidence, verify that logic thoroughly before extending or building upon it.
+
+- Session Conclusion: When finishing a task or when the user indicates the session is ending, always suggest a final handoff to capture the remaining context.
