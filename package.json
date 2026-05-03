@@ -1,6 +1,6 @@
 {
   "name": "@edenkollcinaku/vibe-log",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "The Universal Reasoning Ledger for Agentic Development",
   "main": "dist/cli/index.js",
   "bin": {
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run build && node --test tests"
   },
   "repository": {
     "type": "git",
@@ -46,6 +46,6 @@
     "typescript": "^6.0.2"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   }
 }

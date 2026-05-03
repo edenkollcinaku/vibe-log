@@ -3,6 +3,7 @@ import { getConfig } from './config';
 import { AntigravityProvider } from '../providers/antigravity';
 import { GitProvider } from '../providers/git';
 import { LogProvider } from '../providers';
+import { ContextCapsule, isContextCapsule } from './types';
 
 const CONTEXT_CAPSULE_SCHEMA: Schema = {
   type: Type.OBJECT,
@@ -52,7 +53,7 @@ const CONTEXT_CAPSULE_SCHEMA: Schema = {
   required: ["timestamp", "projectContext", "architecturalIntent", "confidenceScore"]
 };
 
-export async function distillLogs(modelOverride?: string): Promise<any | null> {
+export async function distillLogs(modelOverride?: string): Promise<ContextCapsule | null> {
   const config = getConfig();
   if (!config.geminiApiKey) {
     throw new Error('Gemini API key is not configured. Run "vibe-log configure" to set it up.');
@@ -100,9 +101,14 @@ ${aggregatedLogs}
   if (!responseText) return null;
 
   try {
-    return JSON.parse(responseText);
-  } catch (e) {
-    console.error('Failed to parse Gemini response as JSON', e);
+    const parsed: unknown = JSON.parse(responseText);
+    if (isContextCapsule(parsed)) {
+      return parsed;
+    }
+    console.error('Gemini response did not match the Context Capsule schema');
+    return null;
+  } catch (error) {
+    console.error('Failed to parse Gemini response as JSON', error);
     return null;
   }
 }

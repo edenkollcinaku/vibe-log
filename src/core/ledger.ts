@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { ContextCapsule, ArchitecturalIntent } from './types';
 
 const LEDGER_FILE = path.join(process.cwd(), 'VIBE.md');
 
@@ -19,7 +20,7 @@ This is the project's Long-term Memory. It records architectural intent, reasoni
   }
 }
 
-export function appendToLedger(capsule: any): void {
+export function appendToLedger(capsule: ContextCapsule): void {
   if (!fs.existsSync(LEDGER_FILE)) {
     initLedger();
   }
@@ -36,7 +37,7 @@ export function appendToLedger(capsule: any): void {
 
   if (capsule.architecturalIntent && capsule.architecturalIntent.length > 0) {
     markdown += `### Architectural Intent\n`;
-    capsule.architecturalIntent.forEach((intent: any) => {
+    capsule.architecturalIntent.forEach((intent: ArchitecturalIntent) => {
       markdown += `- **Topic:** ${intent.topic}\n`;
       markdown += `  - **Decision:** ${intent.decision}\n`;
       markdown += `  - **Rationale:** ${intent.rationale}\n`;

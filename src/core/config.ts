@@ -2,9 +2,10 @@ import os from 'os';
 import path from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
+import { isRecord } from './types';
 
 // Load .env from process.cwd() for local overrides
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const CONFIG_DIR = path.join(os.homedir(), '.vibe-log');
 const CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
@@ -21,14 +22,15 @@ export function getConfig(): VibeConfig {
   if (fs.existsSync(CONFIG_FILE)) {
     try {
       const data = fs.readFileSync(CONFIG_FILE, 'utf-8');
-      const parsed = JSON.parse(data);
-      if (!geminiApiKey && parsed.geminiApiKey) {
+      const parsed: unknown = JSON.parse(data);
+      if (!isRecord(parsed)) return { geminiApiKey, model };
+      if (!geminiApiKey && typeof parsed.geminiApiKey === 'string') {
         geminiApiKey = parsed.geminiApiKey;
       }
-      if (parsed.model) {
+      if (typeof parsed.model === 'string') {
         model = parsed.model;
       }
-    } catch (e) {
+    } catch {
       // Failed to parse config, ignore
     }
   }
@@ -47,7 +49,13 @@ export function saveConfig(config: Partial<VibeConfig>): void {
   let currentConfig: Partial<VibeConfig> = {};
   if (fs.existsSync(CONFIG_FILE)) {
     try {
-      currentConfig = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf-8'));
+      const parsed: unknown = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf-8'));
+      if (isRecord(parsed)) {
+        currentConfig = {
+          ...(typeof parsed.geminiApiKey === 'string' ? { geminiApiKey: parsed.geminiApiKey } : {}),
+          ...(typeof parsed.model === 'string' ? { model: parsed.model } : {}),
+        };
+      }
     } catch {
       // Ignored
     }
