@@ -1,11 +1,13 @@
-# AGENTS.md — Vibe-Log Guidelines
+# AGENTS.md - Vibe-Log Guidelines
 
 ## Build & Development Commands
 - Build: `npm run build`
+- Test: `npm test`
 - Install: `npm install`
 - Init Vibe-Log: `npx @edenkollcinaku/vibe-log init`
 - Manual Handoff: `npx @edenkollcinaku/vibe-log handoff`
 - Configure Key: `npx @edenkollcinaku/vibe-log configure -k <key>`
+- Runtime: Node.js `>=20.0.0`
 
 ## Vibe-Log Protocol (CRITICAL)
 - **Persistence:** After completing a feature, refactor, or bug fix, you MUST run `npx @edenkollcinaku/vibe-log handoff` to distill your reasoning into `VIBE.md`.

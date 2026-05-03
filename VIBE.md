@@ -4,7 +4,7 @@ This is the project's Long-term Memory. It records architectural intent, reasoni
 
 ### Reasoning Timeline
 
-## Session | 5/22/2025, 4:30:00 PM
+## Session | 2026-05-03 (1.0.3 release-prep handoff)
 **Confidence Score:** High
 
 ### Context
@@ -37,5 +37,37 @@ Transitioning to a scoped NPM package, hardening the CLI with strict type safety
 ### Open Issues (Tech Debt)
 - [ ] Monitor LLM token usage with the new untracked file capture logic
 - [ ] Evaluate if additional file types (e.g., large JSON) should be excluded from GitProvider
+
+---
+
+## Session | 2026-05-03 20:18 +02:00 (1.0.4 release-prep handoff)
+**Confidence Score:** High
+
+### Context
+Refining project documentation, agentic guidelines, and safety protocols for Vibe-Log v1.0.4.
+
+### Architectural Intent
+- **Topic:** Documentation & Onboarding
+  - **Decision:** Complete README overhaul and standardization of agent-specific rule files (AGENTS.md, CLAUDE.md).
+  - **Rationale:** To reduce 'Vibe Amnesia' for users and provide clear, consistent instructions for AI agents across different IDEs and environments.
+  - **Trade-offs:** Increased documentation maintenance overhead, Potential redundancy between README and agent-specific files
+- **Topic:** Security & Privacy
+  - **Decision:** Implemented 'Commit Hygiene' rules in .antigravity_rules and .cursorrules.
+  - **Rationale:** VIBE.md may ingest context from untracked files; explicit review steps prevent accidental leakage of sensitive data during the handoff process.
+  - **Trade-offs:** Relies on manual user review, Adds a friction step to the commit workflow
+- **Topic:** Environment Requirements
+  - **Decision:** Formalized Node.js >=20.0.0 requirement in documentation.
+  - **Rationale:** Ensures compatibility with modern ESM and fetch APIs used in the core logic.
+  - **Trade-offs:** Excludes users on older LTS versions of Node.js
+
+### Style Preferences
+- Strict TypeScript typing (no any)
+- Adapter pattern for providers
+- Functional programming where possible
+- Try/catch for external CLI/Git calls
+
+### Open Issues (Tech Debt)
+- [ ] Monitor CLI handoff reliability after recent fixes in commit 641bda9
+- [ ] Verify cross-platform compatibility for the Node.js 20+ requirement
 
 ---

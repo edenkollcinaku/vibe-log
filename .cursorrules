@@ -6,3 +6,5 @@
 - Confidence Assessment: Respect the confidenceScore field in the ledger; if a previous session has "Low" confidence, verify that logic thoroughly before extending or building upon it.
 
 - Session Conclusion: When finishing a task or when the user indicates the session is ending, always suggest a final handoff to capture the remaining context.
+
+- Commit Hygiene: If handoff updates VIBE.md, review it for sensitive context and include it in the commit when it is safe.

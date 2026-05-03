@@ -1,58 +1,119 @@
-# 🌊 Vibe-Log
+# Vibe-Log
+
 [![npm version](https://img.shields.io/npm/v/@edenkollcinaku/vibe-log.svg)](https://www.npmjs.com/package/@edenkollcinaku/vibe-log)
 
 **The Universal Reasoning Ledger for Agentic Development.**
 
-Vibe-Log is a professional-grade CLI tool that autonomously captures architectural "intent" and "reasoning" from your AI-assisted coding sessions. **Say goodbye to "Vibe Amnesia."**
+Vibe-Log is a CLI tool that captures architectural intent and reasoning from AI-assisted coding sessions, then writes a condensed context capsule to your project's `VIBE.md`.
 
-## 🤯 The Problem: Vibe Amnesia
-When pair-programming with AI (like Cursor, Claude Code, or Antigravity), we iterate quickly. Decisions are made, trade-offs are accepted, and specific coding styles are adopted in the heat of the "vibe." 
+## The Problem: Vibe Amnesia
 
-However, start a new AI session a few hours or days later, and the "vibe" is entirely gone. The AI has amnesia. It doesn't remember *why* an architectural choice was made, causing cyclical issues and hallucinated refactors.
+When pair-programming with AI tools like Cursor, Claude Code, Codex, or Antigravity, decisions are made quickly. Trade-offs are accepted, local patterns emerge, and implementation details move fast.
 
-## ✨ The Solution: The Universal Adapter
-Vibe-Log solves this by acting as a universal adapter. It hooks into your workflow, intercepts the raw session logs and git diffs, filters out syntax noise using Gemini 3.1 Pro (The Distiller), and saves the **Architectural Intent** as a "Context Capsule" directly into your project's `VIBE.md`.
+Start a new AI session later, and that reasoning is often gone. The next agent may know what changed, but not why it changed.
 
-You can then cleanly hand off the repository to a fresh AI agent, fully loaded with the reasoning timeline.
+## The Solution: A Reasoning Ledger
 
-## 🚀 Getting Started
+Vibe-Log acts as a small adapter around your workflow:
 
-### 1. Installation
-The easiest way to use Vibe-Log is via `npx` (no installation required), or you can install it globally:
+- Reads recent context from providers such as Git diffs and Antigravity files.
+- Includes safe untracked text files under 64 KB while skipping binary files.
+- Uses Gemini to distill noisy logs and diffs into architectural intent.
+- Appends the result to `VIBE.md` so future agents can recover the project's reasoning.
+
+## Requirements
+
+- Node.js `>=20.0.0`
+- A Gemini API key
+- Git, when using the Git provider or hook installation
+
+## Installation
+
+Use with `npx`:
 
 ```bash
-# Install globally so you can use the 'vibe-log' command anywhere
+npx @edenkollcinaku/vibe-log --help
+```
+
+Or install globally:
+
+```bash
 npm install -g @edenkollcinaku/vibe-log
 ```
 
-### 2. Configuration
-Before using the tool, set up your Gemini API Key. Since we prefer the "Open Source" way, keys are saved gracefully and securely in your global home directory (`~/.vibe-log/config`):
+## Configuration
+
+Store your Gemini API key in the global Vibe-Log config outside the project repo:
 
 ```bash
 npx @edenkollcinaku/vibe-log configure --key "YOUR_GOOGLE_AI_API_KEY"
 ```
-*(You can also set the model preference globally with --model gemini-3.1-pro-preview.)*
 
-### 3. Initialize the Project
-Initialize `vibe-log` in your project to create the `VIBE.md` long-term memory ledger and install a git pre-commit hook.
+The default model is `gemini-3-flash-preview`. You can set a different default model globally:
 
 ```bash
-npx @edenkollcinaku/vibe-log init
+npx @edenkollcinaku/vibe-log configure --model gemini-3-flash-preview
 ```
 
-### 4. Handoff & Commit
-When you're ready to stop working and hand off the context, just commit as usual. The Git pre-commit hook automatically triggers the Distiller to condense your work into a 2k-token Context Capsule. Or manually invoke it:
+You can also override the model for a single handoff:
 
 ```bash
 npx @edenkollcinaku/vibe-log handoff --model gemini-3.1-pro-preview
 ```
 
-## 🧩 Architecture
+## Initialize a Project
 
-Vibe-Log is architected using the Adapter Pattern, making it completely platform-agnostic:
-- **Core Engine:** Analyzes changes, manages configuration, controls CLI flow.
-- **The Distiller (Gemini 3.1 Pro):** Condenses logs down to specific architectural intent, assigning a `confidenceScore` so you know when the AI was "hacking" vs. being certain.
-- **Providers:** Extract "dirty" logs from anywhere. Includes adapters for Git Diffs, Antigravity (`.antigravity/`), and community hooks for upcoming tools (Cursor, Claude etc.).
+Initialize Vibe-Log in a repository:
 
-## 📜 License
+```bash
+npx @edenkollcinaku/vibe-log init
+```
+
+This creates `VIBE.md` if needed and installs a Git pre-commit hook. The hook uses a managed block so Vibe-Log can update its own hook logic without removing existing user hook content.
+
+When the hook captures a handoff successfully, it runs:
+
+```bash
+git add VIBE.md
+```
+
+That stages the new ledger entry so it can be included in the same commit.
+
+## Manual Handoff
+
+Run a handoff manually at any time:
+
+```bash
+npx @edenkollcinaku/vibe-log handoff
+```
+
+The command prints the generated context capsule and appends it to `VIBE.md`.
+
+## Architecture
+
+Vibe-Log follows an adapter-oriented structure:
+
+- **CLI:** Handles `configure`, `init`, and `handoff` commands.
+- **Config:** Loads local `.env` values quietly and global config from `~/.vibe-log/config.json`.
+- **Distiller:** Calls Gemini and validates the returned context capsule before writing it.
+- **Ledger:** Creates and appends to `VIBE.md`.
+- **Providers:** Gather raw context. The Git provider captures recent commits, tracked diffs, and safe untracked text files. The Antigravity provider reads known `.antigravity/` artifacts.
+- **Hooks:** Installs an idempotent pre-commit managed block and preserves existing hook content.
+
+## Safety Notes
+
+- Do not commit API keys. Prefer `vibe-log configure`, which stores keys outside the repo.
+- Review `VIBE.md` before committing if your untracked files may contain sensitive context.
+- Large untracked files and binary files are summarized or skipped instead of sent to Gemini.
+
+## Development
+
+```bash
+npm install
+npm run build
+npm test
+```
+
+## License
+
 Distributed under the MIT License. See `LICENSE` for more information.
