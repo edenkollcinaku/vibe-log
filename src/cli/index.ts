@@ -37,7 +37,7 @@ program
     if (options.model) configUpdate.model = options.model;
 
     saveConfig(configUpdate);
-    console.log('Configuration saved successfully to ~/.vibe-log/config');
+    console.log('Configuration saved successfully to ~/.vibe-log/config.json');
   });
 
 program

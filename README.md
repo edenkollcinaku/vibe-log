@@ -61,6 +61,14 @@ You can also override the model for a single handoff:
 npx @edenkollcinaku/vibe-log handoff --model gemini-3.1-pro-preview
 ```
 
+### Silent Mode
+
+Use the `--silent` flag to run a handoff without printing the context capsule to stdout. This is useful for automated scripts or hooks:
+
+```bash
+npx @edenkollcinaku/vibe-log handoff --silent
+```
+
 ## Initialize a Project
 
 Initialize Vibe-Log in a repository:
@@ -81,13 +89,23 @@ That stages the new ledger entry so it can be included in the same commit.
 
 ## Manual Handoff
 
-Run a handoff manually at any time:
+Run a handoff manually at any time to capture the current state of your project:
 
 ```bash
 npx @edenkollcinaku/vibe-log handoff
 ```
 
 The command prints the generated context capsule and appends it to `VIBE.md`.
+
+## AI Agent Integration
+
+Vibe-Log is designed to work seamlessly with various AI coding assistants by providing them with long-term memory through `VIBE.md`. To ensure your agent follows the Vibe-Log protocol, the following rule files are provided:
+
+- **`.antigravity_rules`**: For Antigravity users.
+- **`.cursorrules`**: For Cursor users.
+- **`AGENTS.md` / `CLAUDE.md`**: General purpose and Claude-specific guidelines.
+
+These files instruct the agent to read `VIBE.md` at the start of a session and perform a `handoff` after completing significant tasks.
 
 ## Architecture
 
